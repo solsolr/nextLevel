@@ -1,0 +1,44 @@
+<!--유저 정보-->
+<h1>{{ user.user_id }}</h1>
+<h1>{{ user.user_pwd }}</h1>
+<h1>{{ user.area}}</h1>
+<h1>{{ user.user_name}}</h1>
+
+<!--중계기 목록-->
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>중계기 이름</th>
+            <th>중계기 장소</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if box_list %}
+        {% for box in box_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                <a href="{% url 'traffic:detail' box.id %}">{{box.box_name}}</a>
+            </td>
+            <td>{{box.box_area}}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">중계기가 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<!--중계기 등록-->
+
+
+<!--로그아웃-->
+<form action="{% url 'common:index' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="로그아웃">
+</form>

@@ -1,0 +1,53 @@
+{% load static %}
+<script src="{% static 'test.js' %}"></script>
+<div>
+    <h5>회원가입</h5>
+    <form method="post">
+        {% csrf_token %}
+<!--    {{ form.as_p }}-->
+        <!-- 오류표시 Start -->
+        {% if form.errors %}
+        <div>
+            {% for field in form %}
+            {% if field.errors %}
+            <div>
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- 오류표시 End -->
+        <div>
+           <p>지역 선택</p>
+            <select name="area" id="area">
+                {% for area in form.area %}
+                   <option value="{{ area.value|default_if_none:'' }}">{{area}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <p>id</p>
+            <input type="text" name="user_id"
+                      id="user_id" value="{{ form.user_id.value|default_if_none:'' }}">
+        </div>
+        <div>
+            <p>패스워드</p>
+            <input type="text" name="user_pwd"
+                      id="user_pwd" value="{{ form.user_pwd.value|default_if_none:'' }}">
+        </div>
+        <div>
+            <p>패스워드 확인</p>
+            <input type="text" name="user_pwd2"
+                      id="user_pwd2" value="{{ form.user_pwd2.value|default_if_none:'' }}">
+        </div>
+        <div>
+            <p>유저 닉네임</p>
+            <input name="user_name"
+                      id="user_name" value="{{ form.user_name.value|default_if_none:'' }}">
+        </div>
+        <br>
+        <input type="submit" onclick="test()" value="등록하기">
+    </form>
+</div>
