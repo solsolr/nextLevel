@@ -1,0 +1,87 @@
+--youtube
+
+
+
+git clone https://github.com/hzeller/rpi-rgb-led-matrix.git
+dir
+cd rpi-rgb-led-matrix
+make build-python PYTHON=$(which python 3)
+sudo make install-python
+dir	=>bindings 확인
+cd bindings/python/samples
+sudo python3 runtext.py --led-cols=128 --led-gpio-mapping=adafruit-hat --led-slowdown-gpio=4 --text="Hello Wolrd!"
+
+
+>> rgb_matrix_image.py
+
+import time
+import sys
+
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from PIL import Image
+
+image_file = "/home/pi/next_level/stbase.jpg"
+
+image = Image.open(image_file)
+
+# Configuration for the matrix
+options = RGBMatrixOptions()
+options.rows = 32
+options.cols = 64
+options.gpio_slowdown = 4
+options.chain_length = 1
+options.parallel = 1
+options.hardware_mapping = 'addfruit-hat'
+
+matrix = RGBMatrix(option=options)
+
+# Create a thumbnail that fits our screen
+image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
+
+matrix.SetImage(image.convert('RGB'))
+
+try:
+    print("Press CTRL-C to stop")
+    while True:
+        time.sleep(100)
+except KeyboardInterrupt:
+    sys.exit(0)
+
+------------------------------------------------------------------------------
+gpt 한테 물어봄
+
+sudo apt-get update
+sudo apt-get install build-essential git libglib2.0-dev libx11-dev libxext-dev libfreetype6-dev libfontconfig1-dev
+git clone https://github.com/hzeller/rpi-rgb-led-matrix.git
+cd rpi-rgb-led-matrix
+make build-python
+sudo make install-python
+cd python
+sudo python example-api-use.py
+
+
+-------------------------------------------------------------------
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from PIL import Image, ImageDraw, ImageFont
+
+options = RGBMatrixOptions()
+options.rows = 32
+options.cols = 64
+options.chain_length = 1
+options.parallel = 1
+options.hardware_mapping = 'regular'
+
+matrix = RGBMatrix(options = options)
+
+font = ImageFont.truetype("arial.ttf", 16)
+image = Image.new("RGB", (options.cols, options.rows), "black")
+draw = ImageDraw.Draw(image)
+draw.text((0, 0), "Hello World!", fill=(255, 0, 0), font=font)
+
+matrix.SetImage(image)
+
+try:
+    while True:
+        time.sleep(100)
+except KeyboardInterrupt:
+    sys.exit(0)

@@ -1,0 +1,17 @@
+라즈베리파이에 opencv 설치
+전체과정 
+ 1. sudo apt-get -y update && sudo apt-get -y upgrade
+    로 라즈베리파이 OS 업데이트(조금 오래걸림)
+ 2. sudo apt install python3-opencv
+ 3. gdsb cctv project 폴더 만들기
+ 4. 폴더 내부에 templates, fonts 폴더 만들기
+ 5. VSCode로 라즈베리파이에 접속
+ 6. 인터프리터는 글로벌로 설정 후 python3 -m virtualenv gdsb_env --system-site-packages
+ 7. 가상환경에 들어온 후 예전에 설치했던 pip 패키지들을 설치
+  7.1 pip3 install RPi.GPIO
+  7.2 pip3 install pillow
+  7.3 pip3 install flask
+ 8. vscode 터미널에서 python3 - import cv2 입력후 반응 확인
+ 9. 라즈베리파이 바탕화면에 lenna.png 파일과 cctv#1 test.py 파일을 넣고 실행해봄
+
+https://www.youtube.com/watch?v=Y3IdUiFYhe8&list=PLgkpDfSY2BeydMQsOAeFR1gLqnYfg25IL

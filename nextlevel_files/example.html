@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="buttton.css">
+    <link rel="stylesheet" type="text/css" href="style2.css">
+    <title>control_page</title>
+</head>
+<body>
+    <div class="traffic">
+        <h2> 신호등 제어 </h2>
+        <form>
+            <div id="control_box">
+                <div id="control_box1" class="control_boxs" sytle="border: 1px">
+                    <!-- <div id="traffic_picture" class="center">
+                        <img src="images\traffic_ex.png" width="200" height="100" alt="신호등사진">
+                    </div> -->
+                    <div id="tranffic_green">
+                        <div class="traffic_box">
+                            <label>
+                                <input type="radio" name="traffic_color" value="green">
+                                <div class="img_color"></div>
+                            </label>
+                        </div>
+                        <div class="traffic_box" class="clear">
+                            <select name ="traffic_green_select" class="select">
+                                <option selected disabled>수동제어 선택</option>
+                                <option value="직진">직진</option>
+                                <option value="좌회전">좌회전</option>
+                                <option value="우회전">우회전</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="tranffic_yellow" class="clear">
+                        <div class="traffic_box">
+                            <label>
+                                <input type="radio" name="traffic_color" value="yello">
+                                <div class="img_color"></div>
+                            </label>
+                        </div>
+                        <div class="traffic_box">
+                            <select name ="traffic_yellow_select" class="select">
+                                <option selected disabled>날씨상황 선택</option>
+                                <option value="직진">폭우</option>
+                                <option value="좌회전">폭설</option>
+                                <option value="우회전">태풍</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="tranffic_red" class="clear">
+                        <div class="traffic_box">
+                            <label>
+                                <input type="radio" name="traffic_color" value="red">
+                                <div class="img_color"></div>
+                            </label>
+                        </div>
+                        <div class="traffic_box">
+                            <select name ="traffic_red_select" class="select">
+                                <option selected disabled>재난상황 선택</option>
+                                <option value="직진">대형교통사고</option>
+                                <option value="좌회전">터널무너짐</option>
+                                <option value="우회전">낙석</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="control_box2" class="control_boxs" style="border: 1px;">
+                    <div id="bohang_color">
+                        <div class="traffic_box">
+                            신호 선택
+                        </div>
+                        <div class="traffic_box">
+                            <select name ="bohang_color_select" class="select">
+                                <option selected disabled>신호 선택</option>
+                                <option value="green">초록불</option>
+                                <option value="red">빨간불</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div id="bohang_sec">
+                        <div class="traffic_box">
+                            시간 선택
+                        </div>
+                        <div class="traffic_box">
+                            <select name ="bohang_sec_select" class="select">
+                                <option selected disabled>초 선택</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="clear" > 
+                <input type="submit" href="" title="Button push orange" class="button btnPush btnOrange" value="PUSH" onclick="sendMsg()">
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

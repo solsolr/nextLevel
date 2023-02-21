@@ -1,0 +1,96 @@
+body{
+    text-align: center;
+}
+
+#control_box{
+    display: inline-block;
+    height: 450px;
+    width: 500px;
+}
+
+.control_boxs{
+    display: inline-block;
+    float:left;
+    height: 450px;
+    width: 250px;
+}
+
+#control_box2{
+    text-align: center;
+}
+
+#tranffic_green > div:first-child{
+    content: url(images\\green.jpg);
+    height:100px;
+    width: 100px;
+
+}
+
+#tranffic_yellow > div:first-child{
+    content: url(images\\yellow.jpg);
+    height:100px;
+    width: 100px;
+}
+
+#tranffic_red > div:first-child{
+    content: url(images\\red.jpg);
+    height:100px;
+    width: 100px;
+}
+
+/* [type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+[type=radio] + div {
+    cursor: pointer;
+}
+[type=radio]:checked + div {
+    outline: 5px solid rgb(48, 199, 187);
+} */
+
+h2 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    
+}
+
+.traffic{
+    display:inline-block;
+    width:500px;
+    text-align: center;
+}
+
+.traffic_box{
+    margin:10px;
+    display: inline-block;
+    height:100px;
+    width: 100px;
+    float:left;
+    line-height:100px;
+    text-align: center;
+}
+.select {
+    display:inline-block;
+    width:100px;
+    height:40px;
+    font-size:20px;
+    font-weight:bold;
+    text-align: center;
+}
+.select option{
+    font-size:20px;
+    font-size:14px;
+    text-align:center;
+}
+
+.button{
+    display: inline-block;
+    width:140px;
+    height:60px;
+    font-size:30px;
+    font-weight:bold;
+    cursor: pointer;
+    margin-top:20px;
+}
