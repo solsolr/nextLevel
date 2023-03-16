@@ -18,10 +18,12 @@
 
 
                     <ul class="gnb">
+
                         <li>{{user.user_name}}님</li>
                          <li><form action="{% url 'login:index' %}" method="post">
                             {% csrf_token %}
                             <input type="submit" value="로그아웃">
+
                         </form></li>
                     </ul>
 

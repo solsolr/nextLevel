@@ -27,6 +27,7 @@ def auth(request):
             user = User.objects.get(user_id=input_id, user_pwd=input_pwd)
         except User.DoesNotExist:
             user = None
+            return redirect('login:index')
         u = user
         box_list = u.area.box_set.all()
         paginator = Paginator(box_list, 10)  # 페이지당 10개씩 보여주기
@@ -106,7 +107,7 @@ def box_detail(request, user_id, box_id):
                'map_loc_out_list': map_loc_out_list, 'marker_loc_out_list': marker_loc_out_list
                }
 
-    return render(request, 'login/kakao_map_test2.html', context)
+    return render(request, 'login/traffic_list_map.html', context)
 
 def traffic_control(request, user_id, box_id, traffic_name):
     user = User.objects.get(user_id=user_id)

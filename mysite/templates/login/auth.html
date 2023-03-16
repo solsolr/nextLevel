@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'auth.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
-    <title>Hello, project!</title>
+    <title>중계기 리스트</title>
     <script>
 
         function goPage(page = 1) {
@@ -31,6 +31,10 @@
 <div id="wrap">
 
                 <div class="header">
+                    <a href="javascript:goPage({{ page_number }});" style=" display:inline-block; text-decoration: none;
+                      position:relative; left:60px;"><h3 style="background: linear-gradient(to right top, #861657, #ffa69e);
+                        color: transparent; -webkit-background-clip: text;"><b>NEXT LEVEL</b></h3></a>
+<!--                    <div id="icon" style="width:100px; height:30px; display:inline-block; position:relative; top:5px; left:550px;"></div>-->
                     <ul class="gnb">
                         <li>{{user.user_name}}님</li>
                          <li ><form action="{% url 'login:index' %}" method="post">
@@ -41,33 +45,44 @@
                 </div>
 
             <div id="container">
-                <div id="idx_top">
-                    <strong>넥<span>스트</span>인프라</strong>
-                    <p>스마트 신호등</p>
-                </div>
+                <a href="javascript:goPage({{ page_number }});" style="text-decoration: none;"><div id="idx_top">
+                    <div class="font" style="display:inline-block;  width:700px; height:80px; position:relative; left:60px;">
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>넥</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>스</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>트</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>인</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>프</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px;"><strong>라</strong></div>
+
+                    </div>
+<!--                    <strong style="background:black;; color:#CCFFFF; position:relative; left:60px;">넥스트인프라</strong>-->
+                    <p style="color:black; position:relative; left:60px;"><b>스마트 신호등</b></p>
+                    <!--                    <p>스마트 <b>신</b>호등</p>-->
+                </div></a>
                 <div id="idx_board_wrap">
                         <div class="idx_board">
                             <div class="title">
                                 <a href="#" class="name">중계기 목록</a>
-                                <h5 style="float:right">총 {{box_list.paginator.count}}개의 중계기가 있습니다</h5>
+                                <h5 style="float:right; position:relative; right:7px; top:10px;">총 {{box_list.paginator.count}}개의 중계기가 있습니다</h5>
                             </div>
+                            <hr>
                             <div class="list">
                                 <ul>
                                         <li>
-                                            <span style="width : 200px;"><h4>번호</h4></span>
-                                            <span style="width: 150px;"><h4>담당 구</h4></span>
-                                            <span style="width : 300px;"><h4>중계기</h4></span>
-                                            <span><h4>담당 동</h4></span>
+                                            <span style="width : 80px; position:relative; right:135px; text-align:left;"><h4>번호</h4></span>
+                                            <span style="width: 150px; text-align:center; position:relative; left:30px;"><h4>담당 구</h4></span>
+                                            <span style="width : 300px; text-align:center; position:relative; left:140px;"><h4>중계기</h4></span>
+                                            <span style="position:relative; left:90px;"><h4>담당 동</h4></span>
                                         </li>
 
                                     {% for box in box_list %}
                                         <li>
-                                            <span style="width: 200px;">
+                                            <span style="width: 30px; position:relative; right:143px; text-align:center;">
                                                 <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
-                {{ box_list.paginator.count|sub:box_list.start_index|sub:forloop.counter0|add:1 }}</span>
-                                            <span style="width: 150px;">{{box.area}}</span>
-                                            <span style="width : 300px;"><a href="{% url 'login:box_detail' user.user_id box.id %}">{{box.box_name}}</a></span>
-                                            <span>{{box.box_area}}</span>
+                                            {{ box_list.paginator.count|sub:box_list.start_index|sub:forloop.counter0|add:1 }}</span>
+                                            <span style="width: 150px; text-align:center; position:relative; left:55px;">{{box.area}}</span>
+                                            <span style="width : 300px; text-align:center; position:relative; left:170px;"><a href="{% url 'login:box_detail' user.user_id box.id %}">{{box.box_name}}</a></span>
+                                            <span style="position:relative; left:150px;">{{box.box_area}}</span>
                                         </li>
                                     {% endfor %}
                                 </ul>

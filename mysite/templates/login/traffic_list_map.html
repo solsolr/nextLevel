@@ -1,0 +1,275 @@
+{% load pybo_filter %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>신호등 리스트</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'auth2.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min2.css' %}">
+    <script>
+
+        function goPage(page = 1) {
+
+          var f = document.paging;
+
+
+          f.page.value = page;
+
+
+          f.action = "{% url 'login:auth' %}"
+
+          f.method = "post"
+          f.submit();
+        };
+    </script>
+
+</head>
+<body>
+
+<div id="wrap">
+            <div class="header">
+                <a href="javascript:goPage({{ page_number }});" style=" display:inline-block; text-decoration: none;
+                      position:relative; left:60px;"><h3 style="background: linear-gradient(to right top, #861657, #ffa69e);
+                        color: transparent; -webkit-background-clip: text;"><b>NEXT LEVEL</b></h3></a>
+                <form action="{% url 'login:auth' %}" method="post" style="display:inline-block;">
+                    {% csrf_token %}
+                    <input type="submit" value="이전 페이지" style="position:relative; left:100px; bottom:2px;"></input>
+                    <input type="hidden" name="user_id" value="{{user.user_id}}"/>
+                    <input type="hidden" name="user_pwd" value="{{user.user_pwd}}"/>
+                </form>
+                <ul class="gnb" style="position:relative;">
+                    <li>{{user.user_name}}님</li>
+                    <li><form action="{% url 'login:index' %}" method="post">
+                        {% csrf_token %}
+
+                        <input type="submit" value="로그아웃" style="padding:3px;">
+                    </form></li>
+                </ul>
+            </div>
+            <div id="container">
+                <a href="javascript:goPage({{ page_number }});" style="text-decoration: none;">
+                <div id="idx_top">
+                     <div class="font" style="display:inline-block;  width:700px; height:80px; position:relative; left:60px;">
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>넥</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>스</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>트</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>인</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>프</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px;"><strong>라</strong></div>
+
+                    </div>
+<!--                    <strong>넥<span>스트</span>인프라</strong>-->
+                    <p style="color:black; position:relative; left:60px;"><b>스마트 신호등</b></p>
+                </div>
+                </a>
+                <div id="idx_board_wrap">
+                        <div class="idx_board">
+                            <div class="title">
+                                <a href="#" class="name">신호등 목록</a>
+                                <h5 style="float:right; position:relative; right:7px; top:10px;">총 {{traffic_list.paginator.count}}개의 중계기가 있습니다</h5>
+                            </div>
+                            <hr>
+                            <div class="list">
+                                <div class="ul_div">
+                                <ul>
+                                        <li>
+                                            <span><h4>번호</h4></span>
+                                            <span class="span_2"><h4 style="position:relative; left:20px;">{{user.area}} 신호등</h4></span>
+                                        </li>
+
+                                    {% for traffic in traffic_list %}
+                                        <li>
+                                            <span style="width : 58px;">
+                                                <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
+                {{ traffic_list.paginator.count|sub:traffic_list.start_index|sub:forloop.counter0|add:1 }}</span>
+
+                                            <span class="span_2"><a style="position:relative; left:20px;" href="{% url 'login:traffic_control' user.user_id box.id traffic.traffic_name %}">{{traffic.traffic_name}}</a></span>
+
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                </div>
+                                <div class="map_div">
+                                    <ul style="">
+                                        <li><span class="span_3" style="text-align:right;"><h4 style="position:relative; right:75px;">제어할 신호등을 선택하세요</h4></span></li>
+                                        <li><span class="span_3"><div id="map" style="width:500px;height:500px; position:relative; right:100px;" ></div></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+<!-- 페이징처리 시작 -->
+    <form name="paging">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{user.user_id}}"/>
+        <input type="hidden" name="user_pwd" value="{{user.user_pwd}}"/>
+    	<input type="hidden" name="page"/>
+    </form>
+    <ul class="pagination justify-content-center" style="margin-top:28px;">
+        <!-- 이전페이지 -->
+        {% if traffic_list.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ question_list.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+        {% for page_number in traffic_list.paginator.page_range %}
+        {% if page_number >= traffic_list.number|add:-5 and page_number <= traffic_list.number|add:5 %}
+        {% if page_number == traffic_list.number %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if traffic_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ traffic_list.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+                </div>
+
+            </div>
+</div>
+<!--&lt;!&ndash; 페이징처리 시작 &ndash;&gt;-->
+<!--    <form name="paging">-->
+<!--        {% csrf_token %}-->
+<!--        <input type="hidden" name="user_id" value="{{user.user_id}}"/>-->
+<!--        <input type="hidden" name="user_pwd" value="{{user.user_pwd}}"/>-->
+<!--    	<input type="hidden" name="page"/>-->
+<!--    </form>-->
+<!--    <ul class="pagination justify-content-center">-->
+<!--        &lt;!&ndash; 이전페이지 &ndash;&gt;-->
+<!--        {% if traffic_list.has_previous %}-->
+<!--        <li class="page-item">-->
+<!--            <a class="page-link" href="?page={{ question_list.previous_page_number }}">이전</a>-->
+<!--        </li>-->
+<!--        {% else %}-->
+<!--        <li class="page-item disabled">-->
+<!--            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>-->
+<!--        </li>-->
+<!--        {% endif %}-->
+<!--        &lt;!&ndash; 페이지리스트 &ndash;&gt;-->
+<!--        {% for page_number in traffic_list.paginator.page_range %}-->
+<!--        {% if page_number >= traffic_list.number|add:-5 and page_number <= traffic_list.number|add:5 %}-->
+<!--        {% if page_number == traffic_list.number %}-->
+<!--        <li class="page-item active" aria-current="page">-->
+<!--            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>-->
+<!--        </li>-->
+<!--        {% else %}-->
+<!--        <li class="page-item">-->
+<!--            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>-->
+<!--        </li>-->
+<!--        {% endif %}-->
+<!--        {% endif %}-->
+<!--        {% endfor %}-->
+<!--        &lt;!&ndash; 다음페이지 &ndash;&gt;-->
+<!--        {% if traffic_list.has_next %}-->
+<!--        <li class="page-item">-->
+<!--            <a class="page-link" href="?page={{ traffic_list.next_page_number }}">다음</a>-->
+<!--        </li>-->
+<!--        {% else %}-->
+<!--        <li class="page-item disabled">-->
+<!--            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>-->
+<!--        </li>-->
+<!--        {% endif %}-->
+<!--    </ul>-->
+<!--    &lt;!&ndash; 페이징처리 끝 &ndash;&gt;-->
+
+
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=951b79f2d5f7dde5ba55b55ad72ece3e"></script>
+	<script>
+
+		//맵 좌표 설정
+		var traffic = JSON.parse("{{ trafficJson|escapejs }}")
+		var map_lat = traffic['map_loc_out_list'][0]
+		var map_lng = traffic['map_loc_out_list'][1]
+
+		var container = document.getElementById('map');
+		var options = {
+			center: new kakao.maps.LatLng(map_lat, map_lng),
+			level: 5
+		};
+
+		var map = new kakao.maps.Map(container, options);
+
+
+
+		//마커 좌표 설정
+		var marker_loc_out_list = traffic['marker_loc_out_list']
+		for(var marker_loc_in_list of marker_loc_out_list ){
+				var marker_lat = marker_loc_in_list[0]
+				var marker_lng = marker_loc_in_list[1]
+				var traffic_name = marker_loc_in_list[2]
+				var markerPosition  = new kakao.maps.LatLng(marker_lat, marker_lng);
+				//마커 생성
+				var marker = new kakao.maps.Marker({
+					position: markerPosition
+				});
+				marker.setMap(map);
+
+
+
+
+
+
+				let iwContent = document.createElement("div")
+
+				let t_name = document.createElement("div")
+				t_name.textContent = `${traffic_name}`
+				t_name.style = `width:300px;`
+
+				let a_tag = document.createElement("a")
+				a_tag.textContent = `제어`
+				a_tag.href = `${traffic_name}`
+
+
+				iwContent.append(t_name,a_tag);
+
+
+
+				iwRemoveable = true; // removeable 속성을 true 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+				// 인포윈도우를 생성합니다
+				var infowindow = new kakao.maps.InfoWindow({
+					content : iwContent,
+					removable : iwRemoveable
+				});
+
+
+				// 마커에 클릭이벤트를 등록합니다
+				kakao.maps.event.addListener(marker, 'click',makeClickListener(map, marker, infowindow));
+
+		}
+
+		/marker click event/
+		function makeClickListener(map, marker, infowindow) {
+		return function() {
+		infowindow.open(map, marker);
+		};
+		}
+
+
+	</script>
+
+
+
+</body>
+</html>

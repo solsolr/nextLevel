@@ -12,9 +12,14 @@ ul, li {
 
 .header {
     height:40px;
-    background:	#E6E6FA;
+
     border-bottom: 1px solid #ddd;
 }
+
+#icon {
+     background: url(./red_light.png) no-repeat 50% 50% /cover;
+}
+
 header > div {
     width: 90%;
     min-width: 1000px;
@@ -50,7 +55,8 @@ header .gnb li:first-child {
     width: 100%;
     padding: 30px 0; /* 원래는 150px */
     background: url(./traffic.jpg) no-repeat 50% 50% /cover;
-    text-align: center;
+    /*text-align: center;*/
+    opacity:0.9;
 }
 #idx_top strong,
 #idx_top p {
@@ -100,8 +106,16 @@ header .gnb li:first-child {
 .idx_board .title {
     text-align : left; /* 23/02/03 새로 추가 */
     position: relative;
-    padding: 20px;
-    border-bottom: 1px solid #aaa;
+    padding: 40px 20px 20px 20px;
+
+}
+
+hr {
+    height: 3px;
+    background-color: red;
+    width:95%;
+    position:relative;
+    left: 25px;
 }
 
 .idx_board .title a {
@@ -111,7 +125,7 @@ header .gnb li:first-child {
 }
 
 .idx_board .title .name {
-    font-size: 24px;
+    font-size: 35px;
     font-weight: 600;
     letter-spacing: -2px;
 }

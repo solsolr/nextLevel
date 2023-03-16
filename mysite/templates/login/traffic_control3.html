@@ -1,0 +1,120 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'auth3.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+    <title>신호등 제어</title>
+    <script>
+
+        function goPage(page = 1) {
+
+          var f = document.paging;
+
+
+          f.page.value = page;
+
+
+          f.action = "{% url 'login:auth' %}"
+
+          f.method = "post"
+          f.submit();
+        };
+    </script>
+</head>
+<body>
+<div id="wrap">
+            <div class="header">
+                <a href="javascript:goPage({{ page_number }});" style=" display:inline-block; text-decoration: none;
+                      position:relative; left:60px;"><h3 style="background: linear-gradient(to right top, #861657, #ffa69e);
+                        color: transparent; -webkit-background-clip: text;"><b>NEXT LEVEL</b></h3></a>
+                <div>
+
+                    <a href="{% url 'login:box_detail' user.user_id box.id %}"><input type="submit" value="이전 페이지" style="position:relative; left:200px; bottom:35px;"></input></a>
+
+                    <ul class="gnb" style="position:relative; bottom:39px; left:1px;">
+                        <li>{{user.user_name}}님</li>
+                         <li><form action="{% url 'login:index' %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="로그아웃">
+                        </form></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div id="container">
+                <a href="javascript:goPage({{ page_number }});" style="text-decoration: none;"><div id="idx_top">
+                <div class="font" style="display:inline-block;  width:700px; height:80px; position:relative; left:60px;">
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>넥</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>스</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>트</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>인</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px; margin-right:10px;"><strong>프</strong></div>
+                        <div style="width:80px; height:80px; background:black; display:inline-block; text-align:center; line-height:80px;"><strong>라</strong></div>
+
+                    </div>
+                    <!--                    <strong>넥<span>스트</span>인프라</strong>-->
+                    <p style="color:black; position:relative; left:60px;"><b>스마트 신호등</b></p>
+                </div></a>
+                <div id="idx_board_wrap">
+
+                        <div class="idx_board">
+                            <div class="title">
+                                <a href="#" class="name">신호등 제어</a>
+                            </div>
+                            <hr>
+                            <div class="list">
+                                <ul>
+                                        <li>
+                                            <span class="span_2" style="text-align:center; position:relative; right:80px;" ><h3>해당 중계기</h3></span>
+                                            <span class="span_2" style="text-align:center; position:relative; right:80px;"><h3>신호등 이름</h3></span>
+                                            <span class="span_2" style="text-align:center; position:relative; right:50px;"><h3>이미지 슬라이드</h3></span>
+                                            <span class="span_3" style="text-align:center; position:relative; left:40px;"><h3>긴급</h3></span>
+                                        </li>
+
+
+                                        <li>
+                                            <span class="span_2" style="text-align:left; position:relative; right:30px;">{{traffic.box}}</span>
+                                            <span class="span_2" style="text-align:center; position:relative; right:80px;">{{traffic.traffic_name}}</span>
+                                            <span class="span_2" style="text-align:center; position:relative; right:50px;">
+                                                    <form action="{% url 'login:image_slide' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                                                        <input type="hidden" name="box_id" value="{{ box.id }}">
+                                                        <input type="hidden" name="traffic_name" value="{{ traffic.traffic_name }}">
+                                                        <input type="submit" value="이미지 슬라이드">
+                                                    </form>
+                                            </span>
+                                            <span class="span_3" style="text-align:center; position:relative; left:40px;">
+                                                    <form action="{% url 'login:gin' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                                                        <input type="hidden" name="box_id" value="{{ box.id }}">
+                                                        <input type="hidden" name="traffic_name" value="{{ traffic.traffic_name }}">
+                                                        <input type="submit" value="긴급">
+                                                    </form>
+                                            </span>
+
+                                        </li>
+                                </ul>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+<form name="paging">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{user.user_id}}"/>
+        <input type="hidden" name="user_pwd" value="{{user.user_pwd}}"/>
+    	<input type="hidden" name="page"/>
+    </form>
+
+
+</div>
+
+</body>
+</html>
