@@ -1,0 +1,84 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'auth3.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+    <title>Hello, project!</title>
+
+</head>
+<body>
+<div id="wrap">
+            <header>
+                <div>
+
+
+                    <ul class="gnb">
+                        <li>{{user.user_name}}님</li>
+                         <li><form action="{% url 'login:index' %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="로그아웃">
+                        </form></li>
+                    </ul>
+
+                </div>
+            </header>
+            <div id="container">
+                <div id="idx_top">
+                    <strong>넥<span>스트</span>인프라</strong>
+                    <p>스마트 신호등</p>
+                </div>
+                <div id="idx_board_wrap">
+
+                        <div class="idx_board">
+                            <div class="title">
+                                <a href="#" class="name">신호등 제어</a>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                        <li>
+                                            <span class="span_2"><h3>해당 중계기</h3></span>
+                                            <span class="span_2"><h3>신호등 이름</h3></span>
+                                            <span class="span_2"><h3>이미지 슬라이드</h3></span>
+                                            <span class="span_3"><h3>긴급</h3></span>
+                                        </li>
+
+
+                                        <li>
+                                            <span class="span_2">{{traffic.box}}</span>
+                                            <span class="span_2">{{traffic.traffic_name}}</span>
+                                            <span class="span_2">
+                                                    <form action="{% url 'login:image_slide' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                                                        <input type="hidden" name="box_id" value="{{ box.id }}">
+                                                        <input type="hidden" name="traffic_name" value="{{ traffic.traffic_name }}">
+                                                        <input type="submit" value="이미지 슬라이드">
+                                                    </form>
+                                            </span>
+                                            <span class="span_3">
+                                                    <form action="{% url 'login:gin' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                                                        <input type="hidden" name="box_id" value="{{ box.id }}">
+                                                        <input type="hidden" name="traffic_name" value="{{ traffic.traffic_name }}">
+                                                        <input type="submit" value="긴급">
+                                                    </form>
+                                            </span>
+
+                                        </li>
+                                </ul>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+
+</div>
+
+</body>
+</html>

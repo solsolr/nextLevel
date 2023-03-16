@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+ul, li {
+    list-style: none;
+}
+
+.header {
+    height:40px;
+    background:	#E6E6FA;
+    border-bottom: 1px solid #ddd;
+}
+header > div {
+    width: 90%;
+    min-width: 1000px;
+    max-width: 1200px;
+    height: 80px;
+    margin: 0 auto;
+}
+header .logo {
+    float: left;
+}
+header .logo img {
+
+    height: 60px;
+    margin-top: 10px;
+
+}
+
+.header .gnb {
+    margin-right:5px;
+    float: right;
+}
+.header .gnb li {
+    display: inline-block;
+    margin-top: 3px;
+    margin-left: 30px;
+}
+header .gnb li:first-child {
+    margin-left: 0;
+}
+
+/* container */
+#idx_top {
+    width: 100%;
+    padding: 30px 0; /* 원래는 150px */
+    background: url(./traffic.jpg) no-repeat 50% 50% /cover;
+    text-align: center;
+}
+#idx_top strong,
+#idx_top p {
+    color: #fff;
+}
+#idx_top strong {
+    font-size: 60px;
+    letter-spacing: -2px;
+}
+#idx_top strong span {
+    color: yellow;
+}
+#idx_top p {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+#idx_board_wrap {
+    padding: 30px 0; /* 원래는 50px */
+    background: #ddd;
+    text-align:center; /* 23/02/03 추가*/
+}
+
+#idx_board_wrap > div {
+    width: 90%;
+    min-width: 1000px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 0;
+}
+
+.idx_board {
+    display: inline-block;
+    width: 70%;
+    background: #fff;
+}
+
+#idx_board_wrap > div > div:nth-child(even) {
+    /*margin-left: 4%;*/
+}
+
+#idx_board_wrap > div > div:nth-child(3),
+#idx_board_wrap > div > div:nth-child(4) {
+    margin-top: 40px;
+}
+
+.idx_board .title {
+    text-align : left; /* 23/02/03 새로 추가 */
+    position: relative;
+    padding: 20px;
+    border-bottom: 1px solid #aaa;
+}
+
+.idx_board .title a {
+    display: inline-block;
+    text-decoration : none; /* 새로 추가 */
+    vertical-align: middle;
+}
+
+.idx_board .title .name {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -2px;
+}
+
+.idx_board .title .more {
+    position: absolute;
+    top: 24px;
+    right: 20px;
+}
+
+.idx_board .title .more img {
+    width: 24px;
+    margin-left: 3px;
+}
+
+.idx_board .list {
+    padding: 20px;
+}
+
+.idx_board .list ul li {
+    margin-top: 10px;
+    padding-left: 7px;
+    background: url(../img/dot.gif) no-repeat 0 7px /2px;
+    font-size: 0;
+}
+.idx_board .list ul li:first-child {
+    margin-top: 0;
+}
+
+.idx_board .list a,
+.idx_board .list span {
+    display: inline-block;
+    vertical-align: middle;
+
+    padding: 5px;   /* 새로 추가 */
+}
+
+.idx_board .list a {
+    width: 100%;    /* 원래는 80% */
+    font-size: 14px;    /* 원래는 14px */
+
+
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.idx_board .list span {
+    width: 25%;
+    text-align: right;
+    font-size: 12px;
+    color: #777;
+}

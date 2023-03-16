@@ -1,0 +1,168 @@
+{% load pybo_filter %}
+{% load static %}
+<!doctype html>
+<html lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'auth.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+    <title>Hello, project!</title>
+    <script>
+
+        function goPage(page = 1) {
+
+          var f = document.paging;
+
+
+          f.page.value = page;
+
+
+          f.action = "{% url 'login:auth' %}"
+
+          f.method = "post"
+          f.submit();
+        };
+    </script>
+</head>
+<body>
+<div id="wrap">
+
+                <div class="header">
+                    <ul class="gnb">
+                        <li>{{user.user_name}}님</li>
+                         <li ><form action="{% url 'login:index' %}" method="post">
+                            {% csrf_token %}
+                            <input style="padding:3px;" type="submit" value="로그아웃">
+                        </form></li>
+                    </ul>
+                </div>
+
+            <div id="container">
+                <div id="idx_top">
+                    <strong>넥<span>스트</span>인프라</strong>
+                    <p>스마트 신호등</p>
+                </div>
+                <div id="idx_board_wrap">
+                        <div class="idx_board">
+                            <div class="title">
+                                <a href="#" class="name">중계기 목록</a>
+                                <h5 style="float:right">총 {{box_list.paginator.count}}개의 중계기가 있습니다</h5>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                        <li>
+                                            <span style="width : 200px;"><h4>번호</h4></span>
+                                            <span style="width: 150px;"><h4>담당 구</h4></span>
+                                            <span style="width : 300px;"><h4>중계기</h4></span>
+                                            <span><h4>담당 동</h4></span>
+                                        </li>
+
+                                    {% for box in box_list %}
+                                        <li>
+                                            <span style="width: 200px;">
+                                                <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
+                {{ box_list.paginator.count|sub:box_list.start_index|sub:forloop.counter0|add:1 }}</span>
+                                            <span style="width: 150px;">{{box.area}}</span>
+                                            <span style="width : 300px;"><a href="{% url 'login:box_detail' user.user_id box.id %}">{{box.box_name}}</a></span>
+                                            <span>{{box.box_area}}</span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 페이징처리 시작 -->
+    <form name="paging">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{user.user_id}}"/>
+        <input type="hidden" name="user_pwd" value="{{user.user_pwd}}"/>
+    	<input type="hidden" name="page"/>
+    </form>
+    <ul class="pagination justify-content-center" style="margin-top:28px;">
+        <!-- 이전페이지 -->
+        {% if box_list.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="javascript:goPage({{ box_list.previous_page_number }});">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+        {% for page_number in box_list.paginator.page_range %}
+        {% if page_number >= box_list.number|add:-5 and page_number <= box_list.number|add:5 %}
+        {% if page_number == box_list.number %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="javascript:goPage({{ page_number }});">{{ page_number }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="javascript:goPage({{ page_number }});">{{ page_number }}</a>
+        </li>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if box_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="javascript:goPage({{ box_list.next_page_number }});">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+                </div>
+            </div>
+</div>
+<!--&lt;!&ndash; 페이징처리 시작 &ndash;&gt;-->
+<!--    <form name="paging">-->
+<!--        {% csrf_token %}-->
+<!--        <input type="hidden" name="user_id" value="{{user.user_id}}"/>-->
+<!--        <input type="hidden" name="user_pwd" value="{{user.user_pwd}}"/>-->
+<!--    	<input type="hidden" name="page"/>-->
+<!--    </form>-->
+<!--    <ul class="pagination justify-content-center">-->
+<!--        &lt;!&ndash; 이전페이지 &ndash;&gt;-->
+<!--        {% if box_list.has_previous %}-->
+<!--        <li class="page-item">-->
+<!--            <a class="page-link" href="javascript:goPage({{ box_list.previous_page_number }});">이전</a>-->
+<!--        </li>-->
+<!--        {% else %}-->
+<!--        <li class="page-item disabled">-->
+<!--            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>-->
+<!--        </li>-->
+<!--        {% endif %}-->
+<!--        &lt;!&ndash; 페이지리스트 &ndash;&gt;-->
+<!--        {% for page_number in box_list.paginator.page_range %}-->
+<!--        {% if page_number >= box_list.number|add:-5 and page_number <= box_list.number|add:5 %}-->
+<!--        {% if page_number == box_list.number %}-->
+<!--        <li class="page-item active" aria-current="page">-->
+<!--            <a class="page-link" href="javascript:goPage({{ page_number }});">{{ page_number }}</a>-->
+<!--        </li>-->
+<!--        {% else %}-->
+<!--        <li class="page-item">-->
+<!--            <a class="page-link" href="javascript:goPage({{ page_number }});">{{ page_number }}</a>-->
+<!--        </li>-->
+<!--        {% endif %}-->
+<!--        {% endif %}-->
+<!--        {% endfor %}-->
+<!--        &lt;!&ndash; 다음페이지 &ndash;&gt;-->
+<!--        {% if box_list.has_next %}-->
+<!--        <li class="page-item">-->
+<!--            <a class="page-link" href="javascript:goPage({{ box_list.next_page_number }});">다음</a>-->
+<!--        </li>-->
+<!--        {% else %}-->
+<!--        <li class="page-item disabled">-->
+<!--            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>-->
+<!--        </li>-->
+<!--        {% endif %}-->
+<!--    </ul>-->
+<!--    &lt;!&ndash; 페이징처리 끝 &ndash;&gt;-->
+</body>
+</html>

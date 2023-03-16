@@ -1,0 +1,33 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
+    <title>Hello, project!</title>
+</head>
+<body>
+<div class="container__form container--signin">
+
+<form method="post" action="{% url 'login:auth' %}" class="form" id="form2">
+<h2>로그인</h2>
+    {% csrf_token %}
+
+    <input type="text" name="user_id" placeholder="ID" class="input" required/>     <!-- ID-->
+
+    <input type="text" name="user_pwd" placeholder="PWD" class="input" required/>   <!-- PWD-->
+
+    <button type="submit" class="btn">로그인</button> <!-- 로그인-->
+
+</form>
+</div>
+
+</body>
+</html>
+
+
+
+
