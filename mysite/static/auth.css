@@ -9,7 +9,9 @@ a {
 ul, li {
     list-style: none;
 }
-header {
+
+.header {
+    height:40px;
     background:	#E6E6FA;
     border-bottom: 1px solid #ddd;
 }
@@ -30,13 +32,13 @@ header .logo img {
 
 }
 
-header .gnb {
-
+.header .gnb {
+    margin-right:5px;
     float: right;
 }
-header .gnb li {
+.header .gnb li {
     display: inline-block;
-    margin-top: 28px;
+    margin-top: 3px;
     margin-left: 30px;
 }
 header .gnb li:first-child {
@@ -46,7 +48,7 @@ header .gnb li:first-child {
 /* container */
 #idx_top {
     width: 100%;
-    padding: 150px 0;
+    padding: 30px 0; /* 원래는 150px */
     background: url(./traffic.jpg) no-repeat 50% 50% /cover;
     text-align: center;
 }
@@ -67,8 +69,9 @@ header .gnb li:first-child {
 }
 
 #idx_board_wrap {
-    padding: 50px 0;
+    padding: 30px 0; /* 원래는 50px */
     background: #ddd;
+    text-align:center; /* 23/02/03 추가*/
 }
 
 #idx_board_wrap > div {
@@ -86,7 +89,7 @@ header .gnb li:first-child {
 }
 
 #idx_board_wrap > div > div:nth-child(even) {
-    margin-left: 4%;
+    /*margin-left: 4%;*/
 }
 
 #idx_board_wrap > div > div:nth-child(3),
@@ -95,6 +98,7 @@ header .gnb li:first-child {
 }
 
 .idx_board .title {
+    text-align : left; /* 23/02/03 새로 추가 */
     position: relative;
     padding: 20px;
     border-bottom: 1px solid #aaa;
@@ -102,6 +106,7 @@ header .gnb li:first-child {
 
 .idx_board .title a {
     display: inline-block;
+    text-decoration : none; /* 새로 추가 */
     vertical-align: middle;
 }
 
@@ -145,7 +150,7 @@ header .gnb li:first-child {
 }
 
 .idx_board .list a {
-    width: 110%;    /* 원래는 80% */
+    width: 100%;    /* 원래는 80% */
     font-size: 14px;    /* 원래는 14px */
 
 
