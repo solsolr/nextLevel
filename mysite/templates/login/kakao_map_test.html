@@ -1,3 +1,14 @@
+<!--<h1>kakao_map_test</h1>-->
+<!--<h1>user_id:{{user.user_id}}</h1>-->
+<!--<h1>box_id:{{box.id}}</h1>-->
+<!--<h1>map_loc:{{map_loc_out_list.0}}, {{map_loc_out_list.1}}</h1>-->
+<!--<h1>marker_loc_list</h1>-->
+<!--<ul>-->
+<!--    {% for marker_loc_in_list in marker_loc_out_list %}-->
+<!--        <li>{{marker_loc_in_list.0}}, {{marker_loc_in_list.1}}, {{marker_loc_in_list.2}}</li>-->
+<!--    {% endfor %}-->
+<!--</ul>-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,26 +16,9 @@
 	<title>Kakao 지도 시작하기</title>
 </head>
 <body>
-
-	<div style="float:left">
-			<h1>신호등 리스트</h1>
-
-				<ul>
-				{% for traffic in traffic_list %}
-					<li><a href="{% url 'login:traffic_control' user.user_id box.id traffic.traffic_name %}">{{traffic.traffic_name}}</a></li>
-				{% endfor %}
-				</ul>
-
-
-	</div>
-	<div style="display:inline-block;">
-		<h1>제어할 신호등을 선택하세요</h1>
-		<div id="map" style="width:600px;height:500px;" ></div>
-	</div>
+	<div id="map" style="width:1000px;height:1000px;"></div>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=951b79f2d5f7dde5ba55b55ad72ece3e"></script>
 	<script>
-
-		//맵 좌표 설정
 		var traffic = JSON.parse("{{ trafficJson|escapejs }}")
 		var map_lat = traffic['map_loc_out_list'][0]
 		var map_lng = traffic['map_loc_out_list'][1]
@@ -32,70 +26,62 @@
 		var container = document.getElementById('map');
 		var options = {
 			center: new kakao.maps.LatLng(map_lat, map_lng),
-			level: 5
+			level: 3
 		};
 
 		var map = new kakao.maps.Map(container, options);
 
 
 
-		//마커 좌표 설정
+
 		var marker_loc_out_list = traffic['marker_loc_out_list']
-		for(var marker_loc_in_list of marker_loc_out_list ){
-				var marker_lat = marker_loc_in_list[0]
-				var marker_lng = marker_loc_in_list[1]
-				var traffic_name = marker_loc_in_list[2]
-				var markerPosition  = new kakao.maps.LatLng(marker_lat, marker_lng);
-				//마커 생성
-				var marker = new kakao.maps.Marker({
-					position: markerPosition
-				});
-				marker.setMap(map);
 
 
+		var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667);
 
 
+		var marker = new kakao.maps.Marker({
+			position: markerPosition
+		});
 
 
-				let iwContent = document.createElement("div")
-
-				let t_name = document.createElement("div")
-				t_name.textContent = `${traffic_name}`
-
-				let a_tag = document.createElement("a")
-				a_tag.textContent = `제어`
-				a_tag.href = `${traffic_name}`
-
-
-				iwContent.append(t_name,a_tag);
-
-
-
-				iwRemoveable = true; // removeable 속성을 true 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-				// 인포윈도우를 생성합니다
-				var infowindow = new kakao.maps.InfoWindow({
-					content : iwContent,
-					removable : iwRemoveable
-				});
-
-
-				// 마커에 클릭이벤트를 등록합니다
-				kakao.maps.event.addListener(marker, 'click',makeClickListener(map, marker, infowindow));
-
-		}
-
-		/marker click event/
-		function makeClickListener(map, marker, infowindow) {
-		return function() {
-		infowindow.open(map, marker);
-		};
-		}
-
+		marker.setMap(map);
 
 	</script>
+<!--	<script>-->
+<!--		var traffic = JSON.parse("{{ trafficJson|escapejs }}")-->
+<!--		var map_lat = traffic['map_loc_out_list'][0]-->
+<!--		var map_lng = traffic['map_loc_out_list'][1]-->
+
+<!--		var container = document.getElementById('map');-->
+<!--		var options = {-->
+<!--			center: new kakao.maps.LatLng(map_lat, map_lng),-->
+<!--			level: 3-->
+<!--		};-->
+
+<!--		var map = new kakao.maps.Map(container, options);-->
 
 
+
+
+<!--		var marker_loc_out_list = traffic['marker_loc_out_list']-->
+
+<!--		var marker_loc_in_list-->
+
+<!--		for(marker_loc_in_list in marker_loc_out_list){-->
+<!--			var marker_lat = marker_loc_in_list[0]-->
+<!--			var marker_lng = marker_loc_in_list[1]-->
+<!--			var markerPosition  = new kakao.maps.LatLng(marker_lat, marker_lng);-->
+
+
+<!--			var marker = new kakao.maps.Marker({-->
+<!--				position: markerPosition-->
+<!--			});-->
+
+<!--			marker.setMap(map);-->
+<!--		}-->
+
+<!--	</script>-->
 
 </body>
 </html>

@@ -8,4 +8,5 @@ urlpatterns = [
     path('common/', include('common.urls')),
     path('', views.index, name='index'),  # '/' 에 해당되는 path
     path('login/', include('login.urls')),
+    path('rasp/', include('raspberrypi.urls')),
 ]
