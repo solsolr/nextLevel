@@ -1,0 +1,87 @@
+<!--<h1>kakao_map_test</h1>-->
+<!--<h1>user_id:{{user.user_id}}</h1>-->
+<!--<h1>box_id:{{box.id}}</h1>-->
+<!--<h1>map_loc:{{map_loc_out_list.0}}, {{map_loc_out_list.1}}</h1>-->
+<!--<h1>marker_loc_list</h1>-->
+<!--<ul>-->
+<!--    {% for marker_loc_in_list in marker_loc_out_list %}-->
+<!--        <li>{{marker_loc_in_list.0}}, {{marker_loc_in_list.1}}, {{marker_loc_in_list.2}}</li>-->
+<!--    {% endfor %}-->
+<!--</ul>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Kakao 지도 시작하기</title>
+</head>
+<body>
+	<div id="map" style="width:1000px;height:1000px;"></div>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=951b79f2d5f7dde5ba55b55ad72ece3e"></script>
+	<script>
+		var traffic = JSON.parse("{{ trafficJson|escapejs }}")
+		var map_lat = traffic['map_loc_out_list'][0]
+		var map_lng = traffic['map_loc_out_list'][1]
+
+		var container = document.getElementById('map');
+		var options = {
+			center: new kakao.maps.LatLng(map_lat, map_lng),
+			level: 3
+		};
+
+		var map = new kakao.maps.Map(container, options);
+
+
+
+
+		var marker_loc_out_list = traffic['marker_loc_out_list']
+
+
+		var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667);
+
+
+		var marker = new kakao.maps.Marker({
+			position: markerPosition
+		});
+
+
+		marker.setMap(map);
+
+	</script>
+<!--	<script>-->
+<!--		var traffic = JSON.parse("{{ trafficJson|escapejs }}")-->
+<!--		var map_lat = traffic['map_loc_out_list'][0]-->
+<!--		var map_lng = traffic['map_loc_out_list'][1]-->
+
+<!--		var container = document.getElementById('map');-->
+<!--		var options = {-->
+<!--			center: new kakao.maps.LatLng(map_lat, map_lng),-->
+<!--			level: 3-->
+<!--		};-->
+
+<!--		var map = new kakao.maps.Map(container, options);-->
+
+
+
+
+<!--		var marker_loc_out_list = traffic['marker_loc_out_list']-->
+
+<!--		var marker_loc_in_list-->
+
+<!--		for(marker_loc_in_list in marker_loc_out_list){-->
+<!--			var marker_lat = marker_loc_in_list[0]-->
+<!--			var marker_lng = marker_loc_in_list[1]-->
+<!--			var markerPosition  = new kakao.maps.LatLng(marker_lat, marker_lng);-->
+
+
+<!--			var marker = new kakao.maps.Marker({-->
+<!--				position: markerPosition-->
+<!--			});-->
+
+<!--			marker.setMap(map);-->
+<!--		}-->
+
+<!--	</script>-->
+
+</body>
+</html>

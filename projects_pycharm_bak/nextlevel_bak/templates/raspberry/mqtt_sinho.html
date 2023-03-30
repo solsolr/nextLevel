@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'button.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style2.css' %}">
+    <title>control_page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var host = "172.30.1.87";
+        var port = 9001;
+        var mqtt;
+
+        // callback함수 - 접속이 완료된 후 호출되는 함수
+        function onConnect(){
+            console.log("접속완료");
+            mqtt.subscribe("pir")   // 토픽:pir 로 구독신청
+        }
+        // callback함수 - 접속 실패하면 호출되는 함수
+        function onFailure(){
+            console.log("접속실패");
+        }
+        //메시지가 전송되면 호출될 콜백함수를 정의
+        function onMessageArrived(msg){
+            console.log("msg:"+msg.payloadString);
+            out_msg = msg.payloadString
+            //자바스크립트 명령문으로 태그 가져오기
+            mydiv = document.getElementById("data")
+            if (out_msg == "motion detected"){
+                mydiv.innerHTML = out_msg
+            }
+        }
+        // publish하는 함수 정의
+        function sendMsg(){
+            var msg1 = document.getElementById('bohang_color_select');
+            var msg2 = document.getElementById('bohang_sec_select');
+            var msg = msg1.options[msg1.selectedIndex].value + " " + msg2.options[msg2.selectedIndex].value
+<!--            alert("value: " + msg1.options[msg1.selectedIndex].value + " text: " + msg1.options[msg1.selectedIndex].text);-->
+            alert(msg);
+
+            /*
+            1. message객체 생성하기
+            2. 토픽을 설정
+            3. send메소드를 호출
+            */
+            message = new Paho.MQTT.Message(msg); //Message 객체에 broker로 보낼 메시지를 셋팅
+            message.destinationName = "iot/led";  // topic 설정
+            //mqtt 메시지 보내기 - publish
+            mqtt.send(message);
+        }
+
+        //mqtt 통신을 관리하기 위한 사용자 정의 함수
+        function MQTTConnect(){
+            console.log("mqtt 접속:"+host+","+port);
+            //mqtt 통신을 위한 클라이언트 객체 생성
+            mqtt = new Paho.MQTT.Client(host,port,"javascript_client"); // "javascript_client"는 클라이언트 구분을 위한 id
+            // mqtt 통신을 위해 필요한 설정을 명시
+            var options = {
+                timeout:3,
+                onSuccess:onConnect,  // 접속 성공 했을 때 실행될 콜백함수 등록
+                onFailure:onFailure,
+            }
+            //콜백 함수 등록
+            mqtt.onMessageArrived = onMessageArrived
+            mqtt.connect(options);
+        }
+    </script>
+</head>
+<body>
+    <script type="text/javascript">
+        // 사용자 정의 함수를 호출해서 mqtt가 웹소켓 통신을 시작할 수 있도록 설정
+        MQTTConnect()
+    </script>
+    <div class="traffic">
+        <h2> 신호등 제어 </h2>
+        <form>
+            <div id="control_box">
+                <div id="control_box1" class="control_boxs">
+                    <!-- <div id="traffic_picture" class="center">
+                        <img src="images\traffic_ex.png" width="200" height="100" alt="신호등사진">
+                    </div> -->
+                    <div id="tranffic_green">
+                        <div class="traffic_box">
+                            <label>
+                                <input type="radio" name="traffic_color" value="green">
+                                <div class="img_color"></div>
+                            </label>
+                        </div>
+                        <div class="traffic_box" class="clear">
+                            <select name ="traffic_green_select" class="select">
+                                <option selected disabled>수동제어 선택</option>
+                                <option value="직진">직진</option>
+                                <option value="좌회전">좌회전</option>
+                                <option value="우회전">우회전</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="tranffic_yellow" class="clear">
+                        <div class="traffic_box">
+                            <label>
+                                <input type="radio" name="traffic_color" value="yello">
+                                <div class="img_color"></div>
+                            </label>
+                        </div>
+                        <div class="traffic_box">
+                            <select name ="traffic_yellow_select" class="select">
+                                <option selected disabled>날씨상황 선택</option>
+                                <option value="직진">폭우</option>
+                                <option value="좌회전">폭설</option>
+                                <option value="우회전">태풍</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="tranffic_red" class="clear">
+                        <div class="traffic_box">
+                            <label>
+                                <input type="radio" name="traffic_color" value="red">
+                                <div class="img_color"></div>
+                            </label>
+                        </div>
+                        <div class="traffic_box">
+                            <select name ="traffic_red_select" class="select">
+                                <option selected disabled>재난상황 선택</option>
+                                <option value="직진">대형교통사고</option>
+                                <option value="좌회전">터널무너짐</option>
+                                <option value="우회전">낙석</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="control_box2" class="control_boxs">
+                    <div id="bohang_color">
+                        <div class="traffic_box">
+                            <select name ="bohang_color_select" id ="bohang_color_select" class="select">
+                                <option selected disabled>신호 선택</option>
+                                <option value="green">초록불</option>
+                                <option value="red">빨간불</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div id="bohang_sec">
+                        <div class="traffic_box">
+                            <select name ="bohang_sec_select" id ="bohang_sec_select" class="select">
+                                <option selected disabled>초 선택</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="clear" >
+                <input type="submit" href="" title="Button push orange" class="button btnPush btnOrange" value="PUSH" onclick="sendMsg()">
+            </div>
+        </form>
+    </div>
+
+<!--<script src="{% static 'mqtt.js' %}"></script>-->
+</body>
+</html>

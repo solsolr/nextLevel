@@ -1,0 +1,92 @@
+<!--box-->
+<h1>{{box.box_name}}</h1>
+<div>
+  {{box.box_area}}
+</div>
+<!--traffic-->
+<h5>{{box.traffic_set.count}}개의 신호등이 있습니다.</h5>
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>신호등 이름</th>
+            <th>신호등 이미지1</th>
+            <th>신호등 이미지2</th>
+            <th>신호등 텍스트</th>
+            <th>신호등 타이머</th>
+            <th>신호등 타이머2</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if box.traffic_set.all %}
+        {% for traffic in box.traffic_set.all %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{traffic.traffic_name}}</td>
+            <td>{{traffic.traffic_image}}</td>
+            <td>{{traffic.traffic_image2}}</td>
+            <td>{{traffic.traffic_text}}</td>
+            <td>{{traffic.traffic_second}}</td>
+            <td>{{traffic.traffic_second2}}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">신호등이 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+<!--traffic 등록-->
+<form action="{% url 'traffic:traffic_create' box.id %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+    <!-- 오류표시 Start -->
+        {% if form.errors %}
+        <div>
+            {% for field in form %}
+            {% if field.errors %}
+            <div>
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    <!-- 오류표시 End -->
+    <div>
+            <p>traffic_name</p>
+            <input type="text" name="traffic_name"
+                      id="traffic_name" value="{{ form.traffic_name.value|default_if_none:'' }}">
+        </div>
+        <div>
+            <p>traffic_image</p>
+            <input type="file" onchange="setThumbnail(event)" name="traffic_image"
+                      id="traffic_image" value="{{ form.traffic_image.value|default_if_none:'' }}">
+            <div id="image_container"></div>
+        </div>
+        <div>
+            <p>traffic_image2</p>
+            <input type="file" onchange="setThumbnail(event)" name="traffic_image2"
+                      id="traffic_image2" value="{{ form.traffic_image2.value|default_if_none:'' }}">
+            <div id="image_container2"></div>
+        </div>
+        <div>
+            <p>traffic_text</p>
+            <input type="text" name="traffic_text"
+                      id="traffic_text" value="{{ form.traffic_text.value|default_if_none:'' }}">
+        </div>
+        <div>
+            <p>traffic_second</p>
+            <input type="number" name="traffic_second"
+                      id="traffic_second" value="{{ form.traffic_second.value|default_if_none:'' }}">
+        </div>
+        <div>
+            <p>traffic_second2</p>
+            <input type="number" name="traffic_second2"
+                      id="traffic_second2" value="{{ form.traffic_second2.value|default_if_none:'' }}">
+        </div>
+        <br>
+
+    <input type="submit" value="신호등 등록">
+</form>

@@ -1,0 +1,19 @@
+<h1>로그인</h1>
+<!--<form method="post" action="/common/auth/">-->
+<form method="post" action="{% url 'common:login' %}">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td>ID :</td>
+            <td> <input type="text" name="user_id"/></td>
+        </tr>
+        <tr>
+            <td>PWD : </td>
+            <td><input type="text" name="user_pwd"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="로그인"></td>
+            <td><a href="{% url 'common:sign_up' %}"><input type="button" value="회원가입"></a></td>
+        </tr>
+    </table>
+</form>
