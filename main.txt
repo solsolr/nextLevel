@@ -1,0 +1,45 @@
+from flask import Flask, request, render_template
+import RPi.GPIO as GPIO
+import lcd
+import I2C_LCD_driver
+import time
+
+app = Flask(__name__)
+
+ledPin = 21
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(ledPin, GPIO.OUT)
+mylcd = I2C_LCD_driver.lcd()
+
+@app.route('/')
+def home():
+    return render_template("index.html")
+
+@app.route('/data', methods = ['POST'])
+def data():
+    data = request.form['led']
+    
+    if(data == 'on'):
+        GPIO.output(ledPin, 1)
+        return home()
+    
+    elif(data == 'off'):
+        GPIO.output(ledPin, 0)
+        return home()
+    
+
+@app.route('/lcd', methods = ['POST'])
+def lcd():
+    message = request.form['message']
+    message2 = request.form['message2']
+    
+    while True:
+        mylcd.lcd_display_string(message, 1)
+        mylcd.lcd_display_string(message2, 2)
+        time.sleep(3)
+        mylcd.lcd_clear()
+        time.sleep(2)
+        return home()
+
+if __name__== '__main__':
+    app.run(debug=True, port=80, host='0.0.0.0')

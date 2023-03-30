@@ -1,0 +1,6 @@
+라이브러리
+pip install paho.mqtt
+conda install pytorch
+pip install opencv-python
+cd yolov5
+sudo pip install -r requirements.txt

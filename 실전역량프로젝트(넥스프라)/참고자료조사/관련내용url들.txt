@@ -1,0 +1,11 @@
+https://github.com/hzeller/rpi-rgb-led-matrix 
+
+https://www.youtube.com/watch?v=6IQYDnwTjAo 아두이노환경 웹으로 LED display 제어
+
+https://github.com/busel7/DMDESP
+
+https://www.youtube.com/watch?v=Bci8UTx-UAI
+
+웹 기반 인터넷 전광판( PHPoC Black + RS232 보드 + LED 전광판)
+
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=eztcpcom&logNo=220909363492
